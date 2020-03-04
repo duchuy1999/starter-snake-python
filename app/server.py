@@ -61,10 +61,29 @@ def move():
     print(data)
     print(board)
 
+
     # Choose a random direction to move in
     directions = ["up", "down", "left", "right"]
     #move = random.choice(directions)
-    move = "up"
+    #move = "up"
+    myHeadX = data["you"]["body"][0]["x"]
+    myHeadY = data["you"]["body"][0]["y"]
+    myHealth = data["you"]["health"]
+
+    if board[myHeadX - 1][myHeadY] != EMPTY:
+        directions.remove("left")
+    if board[myHeadX + 1][myHeadY] != EMPTY:
+        directions.remove("right")
+    if board[myHeadX][myHeadY - 1] != EMPTY:
+        directions.remove("up")
+    if board[myHeadX][myHeadY + 1] != EMPTY:
+        directions.remove("down")
+
+    if len(directions) == 0:
+        move = "up"
+    else:
+        move = random.choice(directions)
+
     # Shouts are messages sent to all the other snakes in the game.
     # Shouts are not displayed on the game board.
     shout = "I am a python snake!"
