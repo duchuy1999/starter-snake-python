@@ -5,6 +5,9 @@ import random
 import bottle
 from bottle import HTTPResponse
 
+EMPTY = 0
+FOOD = 1
+BODY = 2
 
 @bottle.route("/")
 def index():
@@ -45,6 +48,18 @@ def move():
     """
     data = bottle.request.json
     print("MOVE:", json.dumps(data))
+
+    #gameID = data["game"]["id"]
+    height = data["board"]["height"]
+    width = data["board"]["width"]
+    board = [[EMPTY]*height]*width
+    for food in data["board"]["food"]:
+        board[food["x"]][food["y"]] = FOOD
+    for snakes in data["board"]["snakes"]:
+        for body in snakes["body"]:
+            board[body["x"]][body["y"]] = BODY
+    print(data)
+    print(board)
 
     # Choose a random direction to move in
     directions = ["up", "down", "left", "right"]
