@@ -64,7 +64,7 @@ def move():
     # Choose a random direction to move in
     directions = ["up", "down", "left", "right"]
     #move = random.choice(directions)
-    move = "left"
+    move = "up"
     # Shouts are messages sent to all the other snakes in the game.
     # Shouts are not displayed on the game board.
     shout = "I am a python snake!"
