@@ -59,7 +59,7 @@ def move():
     for snakes in data["board"]["snakes"]:
         for body in snakes["body"]:
             print(body)
-            print(body["x"], body[y])
+            print(body["x"], body["y"])
             board[body["x"]][body["y"]] = BODY
     #print(data)
     print(board)
