@@ -52,7 +52,7 @@ def move():
     #gameID = data["game"]["id"]
     height = data["board"]["height"]
     width = data["board"]["width"]
-    board = [[EMPTY]*height]*width
+    board = [[EMPTY for i in range(height)]for j in range(width)]
     for food in data["board"]["food"]:
         board[food["x"]][food["y"]] = FOOD
 
