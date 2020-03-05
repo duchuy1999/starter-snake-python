@@ -70,13 +70,13 @@ def move():
     myHeadY = data["you"]["body"][0]["y"]
     myHealth = data["you"]["health"]
 
-    if board[myHeadX - 1][myHeadY] == BODY or myHeadX - 1 < 0:
+    if myHeadX - 1 < 0 or board[myHeadX - 1][myHeadY] == BODY:
         directions.remove("left")
-    if board[myHeadX + 1][myHeadY] == BODY or myHeadX + 1 >= width:
+    if myHeadX + 1 >= width or board[myHeadX + 1][myHeadY] == BODY:
         directions.remove("right")
-    if board[myHeadX][myHeadY - 1] == BODY or myHeadY - 1 < 0:
+    if myHeadY - 1 < 0 or board[myHeadX][myHeadY - 1] == BODY:
         directions.remove("up")
-    if board[myHeadX][myHeadY + 1] == BODY or myHeadY + 1 >= height:
+    if myHeadY + 1 >= height or board[myHeadX][myHeadY + 1] == BODY:
         directions.remove("down")
 
     if len(directions) == 0:
