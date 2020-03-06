@@ -50,6 +50,7 @@ def move():
     #print("MOVE:", json.dumps(data))
 
     #gameID = data["game"]["id"]
+    #get board
     height = data["board"]["height"]
     width = data["board"]["width"]
     board = [[EMPTY for i in range(height)]for j in range(width)]
@@ -65,14 +66,14 @@ def move():
     print(board)
 
 
-    # Choose a random direction to move in
     directions = ["up", "down", "left", "right"]
-    #move = random.choice(directions)
-    #move = "up"
+
     myHeadX = data["you"]["body"][0]["x"]
     myHeadY = data["you"]["body"][0]["y"]
+    myHead = (myHeadX, myHeadY)
     myHealth = data["you"]["health"]
-
+    
+    #Avoid walls and bodies
     if myHeadX - 1 < 0 or board[myHeadX - 1][myHeadY] == BODY:
         directions.remove("left")
     if myHeadX + 1 >= width or board[myHeadX + 1][myHeadY] == BODY:
