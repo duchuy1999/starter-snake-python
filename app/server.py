@@ -1,13 +1,21 @@
 import json
 import os
 import random
+from astarlib import aStar
+
+# Edited from Luciano's code
+try:
+    from tools import find_food, get_dir
+except:
+    from app.tools import find_food, get_dir
 
 import bottle
 from bottle import HTTPResponse
 
-EMPTY = 0
-FOOD = 1
-BODY = 2
+BODY = 0
+EMPTY = 1
+FOOD = 2
+# change to body = 0
 
 @bottle.route("/")
 def index():
@@ -53,27 +61,54 @@ def move():
     #get board
     height = data["board"]["height"]
     width = data["board"]["width"]
-    board = [[EMPTY for i in range(height)]for j in range(width)]
+    board = [[EMPTY for i in range(height)] for j in range(width)]
+    food_list = []
+    
     for food in data["board"]["food"]:
         board[food["x"]][food["y"]] = FOOD
+        food_list.append((food["x"], food["y"]))
 
     for snakes in data["board"]["snakes"]:
         for body in snakes["body"]:
-            print(body)
-            print(body["x"], body["y"])
+            #print(body)
+            #print(body["x"], body["y"])
             board[body["x"]][body["y"]] = BODY
+    
+    
     #print(data)
     print(board)
 
 
     directions = ["up", "down", "left", "right"]
+    move = "up"
 
     myHeadX = data["you"]["body"][0]["x"]
     myHeadY = data["you"]["body"][0]["y"]
     myHead = (myHeadX, myHeadY)
     myHealth = data["you"]["health"]
     
-    #Avoid walls and bodies
+    grid_on_path = find_food(board, food_list, myHead)
+    if grid_on_path == None:
+        #Avoid walls and bodies, make this def IsWall later
+        if myHeadX - 1 < 0 or board[myHeadX - 1][myHeadY] == BODY:
+            directions.remove("left")
+        if myHeadX + 1 >= width or board[myHeadX + 1][myHeadY] == BODY:
+            directions.remove("right")
+        if myHeadY - 1 < 0 or board[myHeadX][myHeadY - 1] == BODY:
+            directions.remove("up")
+        if myHeadY + 1 >= height or board[myHeadX][myHeadY + 1] == BODY:
+            directions.remove("down")
+        if len(directions) != 0:
+            move = random.choice(directions)
+                  
+    else:
+        if get_dir(myHead, grid_on_path) != None:
+            move = get_dir(myHead, grid_on_path)
+    
+    
+    
+    """
+    #Avoid walls and bodies, make this def IsWall later
     if myHeadX - 1 < 0 or board[myHeadX - 1][myHeadY] == BODY:
         directions.remove("left")
     if myHeadX + 1 >= width or board[myHeadX + 1][myHeadY] == BODY:
@@ -87,7 +122,8 @@ def move():
         move = "up"
     else:
         move = random.choice(directions)
-
+    """
+    
     # Shouts are messages sent to all the other snakes in the game.
     # Shouts are not displayed on the game board.
     shout = "I am a python snake!"
