@@ -1,30 +1,24 @@
-#pip install astarlib
-from astarlib import aStar
 import sys
+from astar import a_star
 
 def find_food(board, food_list, head):
     nearest_food = None
-    nearest_path = None
+    shortest_path = None
     path_length = sys.maxsize
-    
+
     for food in food_list:
-        normalized_board = aStar(board)
-        food_path = None
-        try:
-            food_path = normalized_board.find_path(head, food)
-        except:
-            continue
-        if food_path != None and food_path[1] < path_length:
-            path_length = food_path[1]
+
+        food_path = a_star(head, food, board)
+        if food_path != None and shortest_path == None:
+            shortest_path = food_path
             nearest_food = food
-            nearest_path = food_path[0]
-        else:
-            return None
+        if food_path != None and shortest_path != None and len(shortest_path) > len(food_path):
+            shortest_path = food_path
+            nearest_food = food
             
-    print(nearest_path)
         
-    if nearest_path != None:
-        return nearest_path[1]
+    if shortest_path != None:
+        return shortest_path[1]
     else:
         return None
     
@@ -39,3 +33,10 @@ def get_dir(head, neighbor):
         return "down"
     else:   
         return None
+        
+def main():
+    #board = [[1,1,1,0,1], [0,0,1,0,0], [1,1,1,0,0],[0,0,1,1,1],[1,2,1,1,2]]
+    #print(find_food(board, [(4,1),(4,4)], (0,0)))
+    return
+    
+main()

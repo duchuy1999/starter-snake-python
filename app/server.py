@@ -1,7 +1,6 @@
 import json
 import os
 import random
-from astarlib import aStar
 
 # Edited from Luciano's code
 try:
@@ -15,7 +14,6 @@ from bottle import HTTPResponse
 BODY = 0
 EMPTY = 1
 FOOD = 2
-# change to body = 0
 
 @bottle.route("/")
 def index():
@@ -70,14 +68,8 @@ def move():
 
     for snakes in data["board"]["snakes"]:
         for body in snakes["body"]:
-            #print(body)
-            #print(body["x"], body["y"])
             board[body["x"]][body["y"]] = BODY
     
-    
-    #print(data)
-    print(board)
-
 
     directions = ["up", "down", "left", "right"]
     move = "up"
@@ -88,6 +80,7 @@ def move():
     myHealth = data["you"]["health"]
     
     grid_on_path = find_food(board, food_list, myHead)
+    print(grid_on_path)
     if grid_on_path == None:
         #Avoid walls and bodies, make this def IsWall later
         if myHeadX - 1 < 0 or board[myHeadX - 1][myHeadY] == BODY:

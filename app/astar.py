@@ -6,13 +6,10 @@ def manhattan_dist(start, end):
     return abs(start[0] - end[0]) + abs(start[1] - end[1])
 
 def reconstruct_path(came_from, current):
-    print(came_from)
-    print(current)
     total_path = [current]
     while current in came_from.keys():
         current = came_from[current]
         total_path.append(current)
-    print(list(reversed(total_path)))
     return list(reversed(total_path))
 
 def neighbors(current, board):
@@ -39,9 +36,6 @@ def a_star(start, end, board):
     f_score = [[10000 for x in range(len(board[y]))] for y in range(len(board))]
     f_score[start[0]][start[1]] = manhattan_dist(start, end)
 
-    #print(g_score)
-    #print(f_score)
-
     while (len(open_list) > 0):
         current = min(open_list, key=lambda p: f_score[p[0]][p[1]])
 
@@ -52,8 +46,8 @@ def a_star(start, end, board):
         closed_list.append(current)
         
         for neighbor in neighbors(current, board):
-            print("current:", current)
-            print("neighbor:", neighbor)
+            #print("current:", current)
+            #print("neighbor:", neighbor)
             if neighbor in closed_list:
                 continue
             temp_g_score = g_score[current[0]][current[1]] + manhattan_dist(current, neighbor)
@@ -69,7 +63,8 @@ def a_star(start, end, board):
     return None
 
 def main():
-    a_star((4,4), (4,0), [[1,1,1,0,1], [0,0,1,0,0], [1,1,1,0,0],[0,0,1,1,1],[1,1,1,1,1]])
+    #a_star((4,4), (4,0), [[1,1,1,0,1], [0,0,1,0,0], [1,1,1,0,0],[0,0,1,1,1],[1,1,1,1,1]])
+    return
 
 main()
 
