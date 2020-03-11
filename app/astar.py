@@ -1,3 +1,61 @@
+#Edit from https://github.com/noahspriggs/battlesnake-python/blob/master/app/AStar.py
+
+import sys
+
+def manhattan_dist(start, end):
+    return abs(start[0] - end[0]) + abs(start[1] - end[1])
+
+def reconstruct_path(came_from, current):
+    total_path = [current]
+    while current in came_from.keys():
+        current =  came_from[current]
+        total_path.append(current)
+    return list(reversed(total_path))
+
+
+def a_star(start, end, board):
+    open_list = []
+    closed_list = []
+    open_list.append(start)
+
+    g_score = [[10000 for x in range(len(board[y]))] for y in range(len(board))]
+    g_score[start[0]][start[1]] = 0
+
+    f_score = [[10000 for x in range(len(board[y]))] for y in range(len(board))]
+    f_score[start[0]][start[1]] = manhattan_dist(start, end)
+
+    print(g_score)
+    print(f_score)
+
+    while (len(open_list > 0)):
+        current = min(open_list, key=lambda p: f_score[p[0]][p[1]])
+
+        if (current == goal):
+            return reconstruct_path(came_from, goal)
+
+        open_set.remove(current)
+        closed_set.append(current)
+
+    return
+
+def main():
+    a_star((0,0), (1,1), [[0,1],[1,2]])
+
+main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 """import heapq
 
 EMPTY = 0

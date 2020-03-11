@@ -1,0 +1,9 @@
+README.md
+astarlib.pyx
+setup.py
+astarlib.egg-info/PKG-INFO
+astarlib.egg-info/SOURCES.txt
+astarlib.egg-info/dependency_links.txt
+astarlib.egg-info/not-zip-safe
+astarlib.egg-info/requires.txt
+astarlib.egg-info/top_level.txt
